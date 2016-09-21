@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Sunshine</string>
     <string name="api_key_weather">8d12c1654c506a115e282bfa25e840a5</string>
+    <string name="activity_detail">Detail Activity</string>
+    <string name="activity_prefferences">Prefferences</string>
+    <string name="settings">Settings</string>
+    <string name="pref_location_label">Location</string>
+    <string name="pref_location_key" translatable="false">location</string>
+    <string name="pref_location_default" translatable="false">48760000</string>
 </resources>

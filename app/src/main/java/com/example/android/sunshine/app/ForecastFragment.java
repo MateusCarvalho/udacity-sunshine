@@ -1,5 +1,6 @@
 package com.example.android.sunshine.app;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,8 +14,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,8 +58,14 @@ public class ForecastFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.action_refresh ) {
+        int id = item.getItemId();
+        if ( id == R.id.action_refresh) {
+            FetchWeatherTask weatherTask = new FetchWeatherTask();
+            weatherTask.execute("48760000");
             return true;
+        } else if (id == R.id.action_settings){
+            Intent i = new Intent(getActivity(),SettingsActivity.class);
+            startActivity(i);
         }
 
         return super.onOptionsItemSelected(item);
@@ -68,12 +77,21 @@ public class ForecastFragment extends Fragment {
 
         String [] arrItens = {"Today - Sunny - 88/63", "Tomorrow - Foggy - 70/46","Weds - Cloudy - 72/63", "Thurs - Rainy - 64/51", "Fri - Froggy - 70/46"};
 
-        List<String> listItens = new ArrayList<String>(Arrays.asList(arrItens));
+        final List<String> listItens = new ArrayList<String>(Arrays.asList(arrItens));
 
         mAdapter = new ArrayAdapter<String>(getActivity(),R.layout.list_item_forecast,R.id.list_item_forecast_textview,listItens);
 
         ListView listView = (ListView) view.findViewById(R.id.listview_forecast);
         listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = mAdapter.getItem(position);
+                Intent i = new Intent(getActivity(), DetailActivity.class);
+                i.putExtra("data",item);
+                startActivity(i);
+            }
+        });
 
         return view;
     }

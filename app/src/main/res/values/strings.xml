@@ -7,4 +7,12 @@
     <string name="pref_location_label">Location</string>
     <string name="pref_location_key" translatable="false">location</string>
     <string name="pref_location_default" translatable="false">48760000</string>
+    <string name="pref_temperature_label">Temperature Units</string>
+    <string name="pref_temperature_key" translatable="false">units</string>
+    <string name="pref_units_label_metric">Metric</string>
+    <string name="pref_units_label_imperial">Imperial</string>
+    <string name="pref_units_metric" translatable="false">metric</string>
+    <string name="pref_units_imperial" translatable="false">imperial</string>
+    <string name="open_map_label">Open Map</string>
+    <string name="action_share">Share</string>
 </resources>

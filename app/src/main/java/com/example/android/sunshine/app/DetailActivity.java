@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +59,27 @@ public class DetailActivity extends ActionBarActivity {
      */
     public static class PlaceholderFragment extends Fragment {
 
+        private static final String LOG_CAT = PlaceholderFragment.class.getSimpleName();
+        private static final String SUNSHINE_APP_HASHTAG = "#SunshineApp";
+        private String mForecast;
+
         public PlaceholderFragment() {
+            setHasOptionsMenu(true);
+        }
+
+        @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+            inflater.inflate(R.menu.detail_fragment,menu);
+            MenuItem menuItem = menu.findItem(R.id.action_share);
+
+            ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+
+            if (mShareActionProvider != null) {
+                mShareActionProvider.setShareIntent(createShareForecastIntent());
+            } else{
+                Log.d(LOG_CAT,"Fail to share");
+            }
         }
 
         @Override
@@ -67,10 +91,20 @@ public class DetailActivity extends ActionBarActivity {
             if (savedInstanceState==null) {
                 TextView text = (TextView) rootView.findViewById(R.id.text);
                 if (getActivity().getIntent()!=null && getActivity().getIntent().hasExtra("data") ){
-                    text.setText(getActivity().getIntent().getStringExtra("data"));
+                    mForecast = getActivity().getIntent().getStringExtra("data");
+                    text.setText(mForecast);
                 }
             }
             return rootView;
+        }
+
+
+        private Intent createShareForecastIntent() {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT,mForecast + SUNSHINE_APP_HASHTAG);
+            return intent;
         }
     }
 }

@@ -73,10 +73,9 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         setHasOptionsMenu(true);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    void onLocationChanged( ) {
         updateWeather();
+        getLoaderManager().restartLoader(0, null, this);
     }
 
     @Override
@@ -92,9 +91,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     private void updateWeather() {
         FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String postalCode = sharedPreferences.getString(getString(R.string.pref_location_key),getString(R.string.pref_location_default));
-        weatherTask.execute(postalCode);
+        String location = Utility.getPreferredLocation(getActivity());
+        weatherTask.execute(location);
     }
 
     @Override

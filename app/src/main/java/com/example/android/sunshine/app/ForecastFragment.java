@@ -31,6 +31,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     public ForecastFragment(){}
     private int mPosition;
     private ListView mListView;
+    private boolean mUseTodayLayout;
 
     public static final String[] FORECAST_COLUMNS = {
             // In this case the id needs to be fully qualified with a table name, since
@@ -145,6 +146,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             mPosition = savedInstanceState.getInt("selected");
         }
 
+        mAdapter.setUseTodayLayout(mUseTodayLayout);
+
         return view;
     }
 
@@ -191,4 +194,12 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
         super.onSaveInstanceState(outState);
     }
+
+    public void setUseTodayLayout(boolean useTodayLayout) {
+        mUseTodayLayout = useTodayLayout;
+        if (mAdapter != null) {
+            mAdapter.setUseTodayLayout(mUseTodayLayout);
+        }
+    }
+
 }

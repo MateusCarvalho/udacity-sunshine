@@ -5,6 +5,4 @@
            android:title="Refresh"
             app:showAsAction="never"
         ></item>
-    <item android:id="@+id/action_settings"
-        android:title="@string/settings"/>
 </menu>

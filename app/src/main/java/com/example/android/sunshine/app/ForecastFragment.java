@@ -111,10 +111,11 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        if ( id == R.id.action_refresh) {
+        /*if ( id == R.id.action_refresh) {
             updateWeather();
             return true;
-        } else if (id == R.id.action_settings){
+        } */
+        if (id == R.id.action_settings){
             Intent i = new Intent(getActivity(),SettingsActivity.class);
             startActivity(i);
         } else if (id == R.id.action_map) {

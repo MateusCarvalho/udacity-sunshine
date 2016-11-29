@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -116,8 +117,33 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         } else if (id == R.id.action_settings){
             Intent i = new Intent(getActivity(),SettingsActivity.class);
             startActivity(i);
+        } else if (id == R.id.action_map) {
+            openPreferredLocationInMap();
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openPreferredLocationInMap() {
+
+        if (mAdapter!=null) {
+            Cursor c = mAdapter.getCursor();
+            if (c!=null) {
+                c.moveToPosition(0);
+                String posLat = c.getString(COL_COORD_LAT);
+                String postLng = c.getString(COL_COORD_LONG);
+                Uri geoLocation = Uri.parse("geo:"+posLat+","+postLng);
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(geoLocation);
+
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Log.d(LOG_TAG, "Couldn't call " + geoLocation.toString() + ", no receiving apps installed!");
+                }
+            }
+        }
     }
 
     @Override
